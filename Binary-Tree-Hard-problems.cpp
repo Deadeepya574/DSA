@@ -217,6 +217,51 @@ void childrensumproperty(node *&root)
 void kdist(node* root){
 
 }
+
+//Minimum Time to Bunr a Binary Tree from a Node 
+int mintimetoburnBTfromaNode(node* root){
+
+}
+
+//Counting Total Nodes in a Complete Binary tree in < O(N) time 
+int findleftheight(node* root) { 
+    int height = 0; 
+    while (root) { 
+        height++; 
+        root = root->left; 
+    } 
+    return height; 
+}
+
+// Helper function to find the rightmost height
+int findrightheight(node* root) { 
+    int height = 0; 
+    while (root) { 
+        height++; 
+        root = root->right; 
+    } 
+    return height; 
+}
+
+// Optimized function to count nodes in a Complete Binary Tree
+int nodes(node* root) { 
+    if (root == nullptr) return 0; 
+    
+    int l = findleftheight(root); 
+    int r = findrightheight(root); 
+    
+    // If left and right heights are equal, it's a perfect binary tree
+    if (l == r) return (1 << l) - 1; 
+    
+    // Otherwise, compute recursively
+    return 1 + nodes(root->left) + nodes(root->right); 
+}
+
+//Requirements for Construction a Unique Binary Tree
+//see image
+
+
+
 int main()
 {
     string ans;
@@ -241,11 +286,11 @@ int main()
         // // cout << "Enter the element you want to check ";
         // cin >> a;
 
-        int ress = lca(root, 1, 2);
+        int ress = nodes(root);
         cout << ress;
     }
     else
     {
         cout << "Thank You for your response!";
     }
-}
+};
