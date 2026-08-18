@@ -2,10 +2,10 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include<bits/stdc++.h>
  
 using namespace std;
- 
-// Function to find Bob's optimal minimizing response
+ 
 string get_bob_best_response(const string& s_alice) {
     string min_str = "";
     bool first = true;
@@ -19,7 +19,7 @@ string get_bob_best_response(const string& s_alice) {
             }
         }
     }
-    // If there were no '1's left for Bob to delete, return the string as is
+     
     return first ? s_alice : min_str;
 }
  
