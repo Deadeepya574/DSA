@@ -1,82 +1,64 @@
 class Solution {
 public:
-
-    long long lc_m(vector<int>& nums) {
-        if (nums.empty()) return 1;
-
-        long long ans = 1;
-
-        for (int x : nums) {
-            ans = lcm(ans, (long long)x);
-        }
-
-        return ans;
-    }
-
-    long long count(vector<int>& coins, long long mid) {
-
-        long long count = 0;
-
-        vector<int> res;
-
-        for (int i = 0; i < coins.size(); i++) {
-            if (coins[i] <= mid) {
-                res.push_back(coins[i]);
-            }
-        }
-
-        int n = res.size();
-
-        // Inclusion-Exclusion
-        for (int mask = 1; mask < (1 << n); mask++) {
-
-            vector<int> nums;
-
-            for (int i = 0; i < n; i++) {
-
-                if (mask & (1 << i)) {
-                    nums.push_back(res[i]);
+    using ll = long long;
+    long long findKthSmallest(vector<int>& coins, int k) {
+        sort(coins.begin(), coins.end());
+        vector<int> new_coins;
+        for (int x : coins) {
+            bool flag = true;
+            for (int y : new_coins) {
+                if (x % y == 0) {
+                    flag = false;
+                    break;
                 }
             }
-
-            long long LCM = lc_m(nums);
-
-            if (LCM > mid)
-                continue;
-
-            long long ways = mid / LCM;
-
-            if (nums.size() % 2 == 1) {
-                count += ways;
+            if (flag) {
+                new_coins.push_back(x);
             }
-            else {
-                count -= ways;
+        }
+        coins = new_coins;
+
+        int n = coins.size();
+        int m = (1 << n);
+        vector<int> bit_count(m);
+        vector<ll> lcm(m, 1);
+        ll l = k, r = 1ll * coins[0] * k + 1;
+
+        for (int mask = 1; mask < m; mask++) {
+            int pre_mask = mask & (mask - 1);
+            int i = __builtin_ctz(mask);
+
+            ll tmp = lcm[pre_mask] / gcd(lcm[pre_mask], coins[i]);
+            if (tmp <= r / coins[i]) {
+                lcm[mask] = tmp * coins[i];
+            } else {
+                lcm[mask] = r + 1;
             }
         }
 
-        return count;
-    }
-
-    long long findKthSmallest(vector<int>& coins, int k) {
-
-        sort(coins.begin(), coins.end());
-
-        long long left = coins[0];
-
-        long long right = 1LL * k * coins[0];
-
-        while (left <= right) {
-
-            long long mid = left + (right - left) / 2;
-
-            if (count(coins, mid) >= k) {
-                right = mid - 1;
+        auto get = [&](ll x) -> ll {
+            ll count = 0;
+            for (int mask = 1; mask < m; mask++) {
+                if (lcm[mask] > x) {
+                    continue;
+                }
+                if (__builtin_popcount(mask) & 1) {
+                    count += x / lcm[mask];
+                } else {
+                    count -= x / lcm[mask];
+                }
             }
-            else {
-                left = mid + 1;
+            return count;
+        };
+
+        while (l < r) {
+            ll x = (l + r) >> 1;
+            if (get(x) >= k) {
+                r = x;
+            } else {
+                l = x + 1;
             }
         }
-
-        return left;
+        return l;
     }
 };
