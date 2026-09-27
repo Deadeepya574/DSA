@@ -4,10 +4,8 @@ public:
         vector<vector<int>> res;
         sort(intervals.begin(),intervals.end());
         for(int i =0;i<intervals.size();i++){ 
-            if(res.empty() || res.back()[1] < intervals[i][0]) {
-
-                res.push_back(intervals[i]);
-
+            if(res.empty() || res.back()[1] < intervals[i][0]) { 
+                res.push_back(intervals[i]); 
             }
             else { 
                 res.back()[1] =
