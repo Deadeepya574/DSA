@@ -11,18 +11,24 @@
  */
 class Solution {
 public:
-    bool solve(TreeNode* root, long long mini, long long maxi) {
-        if (!root)
-            return true;
+  vector<int> v;
 
-        if (root->val <= mini || root->val >= maxi)
+void inorder(TreeNode* root) {
+    if (!root) return;
+
+    inorder(root->left);
+    v.push_back(root->val);
+    inorder(root->right);
+}
+
+bool isValidBST(TreeNode* root) {
+    inorder(root);
+
+    for (int i = 1; i < v.size(); i++) {
+        if (v[i] <= v[i - 1])
             return false;
-
-        return solve(root->left, mini, root->val) &&
-               solve(root->right, root->val, maxi);
     }
 
-    bool isValidBST(TreeNode* root) {
-        return solve(root, LLONG_MIN, LLONG_MAX);
-    }
+    return true;
+}
 };
