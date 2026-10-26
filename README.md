@@ -20,7 +20,7 @@ My goal is not just to solve more problems, but to become better at understandin
 
 - [LeetCode](https://leetcode.com/u/EvDZqG5wMn/)
 - [GeeksforGeeks](https://www.geeksforgeeks.org/)
-- [Codeforces](https://codeforces.com/profile/deadeepya574))
+- [Codeforces](https://codeforces.com/profile/deadeepya574)
 
 ## What I'm Practicing
 
